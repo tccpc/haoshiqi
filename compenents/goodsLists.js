@@ -35,9 +35,9 @@ export default class GoodsLists extends Component {
       })
   };
 
-  gotoDetail(tit){
+  gotoDetail(goods){
     // alert(tit.name)
-    this.props.navigator.push({name: 'GoodsDetail', component: GoodsDetail})
+    this.props.navigator.push({name: 'GoodsDetail', component: GoodsDetail, passProps:goods})
   };
 
   showGoods(good){

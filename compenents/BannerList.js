@@ -40,17 +40,17 @@ class BannerList extends React.Component{
       .done();
   }
   toBaniconDetail(item) {
-    this.props.navigator.push({name: 'BaniconDetail', component: BaniconDetail,passProps:item})
+    this.props.navigator.push({name: 'BaniconDetail', component: BaniconDetail,passProps:{item:item}, isTabBar:false})
   }
   render() {
     let subButtonList = this.state.subButtons.map((item,index) => {
       return (
         <TouchableHighlight
           onPress={() =>this.toBaniconDetail(item)}
-          underlayColor="rgba(34,36,38,1)"
+          underlayColor="rgba(255,255,255,0)"
           key={index} style={styles.subButton}
         >
-          <View>
+          <View style={styles.subcenter}>
             <Image
               source={{uri:item.icon}}
               style={styles.subButtonimg}
@@ -108,6 +108,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop:10,
     marginBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subcenter: {
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -14,14 +14,14 @@ import {
 
 export default class SearchRes extends Component {
   render() {
-    const GOOD_URL = `http://m.api.haoshiqi.net/product/itemssearch?needPagination=1&pageNum=1&pageLimit=20&category=${this.props.data}`;
+    const GOOD_URL = `http://m.api.haoshiqi.net/product/itemssearch?category=${this.props.data}`;
     // console.log(this.props.data);
     // GOOD_URL += this.props.data;
     // alert(GOOD_URL)
     return (
       <View>
 
-        <HeaderBar />
+        <HeaderBar title={this.props.data} navigator={this.props.navigator} />
         <GoodsLists listUrl={GOOD_URL} navigator={this.props.navigator} />
       </View>
     )

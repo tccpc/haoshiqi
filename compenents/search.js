@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TextInput,
   Image,
+  TouchableHighlight,
 } from 'react-native';
 
 export default class Search extends Component {
@@ -23,9 +24,17 @@ export default class Search extends Component {
   render() {
     return (
       <View style={styles.searchBox}>
-        <Image source={{uri:'arrow'}} style={styles.arrow}></Image>
+        <TouchableHighlight
+          style={styles.highlight}
+          onPress={() => {
+            this.props.navigator.jumpBack()
+          }}
+          underlayColor="rgba(255,255,255,0.3)"
+          >
+          <Image source={{uri:'arrow'}} style={styles.arrow}></Image>
+        </TouchableHighlight>
         <TextInput
-          style={styles.search}
+          style={styles.searchInput}
           placeholder="搜索"
           placeholderTextColor="#999"
           autoFocus={true}
@@ -44,7 +53,15 @@ export default class Search extends Component {
           // onEndEditing={()=>{console.log('onEndEditing')}}
           onSubmitEditing={() => this.gotoSearchRes(this.state.text)}
         />
-        <Text>搜索</Text>
+        <TouchableHighlight
+          style={styles.highlight}
+          onPress={() => {
+            this.props.navigator.push({name: 'Search', component: Search})
+          }}
+          underlayColor="rgba(255,255,255,0.3)"
+          >
+          <Image source={{uri:'ic_sort_searth'}} style={styles.searth}></Image>
+        </TouchableHighlight>
       </View>
     )
   }
@@ -52,14 +69,32 @@ export default class Search extends Component {
 
 const styles = StyleSheet.create({
   searchBox:{
-    flexDirection:'row'
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    height:50,
+    backgroundColor:'rgb(255, 238, 17)',
   },
-  search:{
-    flex:1,
-    height:50
+  searchInput:{
+    flex:1
+  },
+  title:{
+    fontSize:18,
+    color:'rgb(145,78,7)'
   },
   arrow:{
     width:20,
-    height:26
+    height:20,
+    marginLeft:20,
+    marginRight:10,
+  },
+  searth:{
+    width:20,
+    height:20,
+    marginRight:20,
+  },
+  highlight:{
+    height:50,
+    justifyContent:'center'
   }
 })

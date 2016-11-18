@@ -39,7 +39,7 @@ export default class Index extends Component {
               underlayColor="rgba(255,255,255,0.1)"
               >
               <View style={indexStyle.search}>
-                <Image source={{uri:'ic_main_search'}} style={{width:22,height:22}}></Image>
+                <Image source={{uri:'ic_main_search'}} style={{width:16,height:16}}></Image>
                 <Text>搜索您想找的商品</Text>
               </View>
             </TouchableHighlight>
@@ -73,7 +73,7 @@ const indexStyle = StyleSheet.create({
     borderRadius:4,
     backgroundColor:'#fff',
     flexDirection:'row',
-    justifyContent: 'center',
+    paddingLeft:10,
     alignItems: 'center',
     flex:1,
   },

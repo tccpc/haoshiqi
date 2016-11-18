@@ -40,6 +40,10 @@ export default class GoodsLists extends Component {
     this.props.navigator.push({name: 'GoodsDetail', component: GoodsDetail, passProps:goods})
   };
 
+  onEndReached(){
+
+  };
+
   showGoods(good){
     function add0(m){return m<10?'0'+m:m };
     function format(shijianchuo){
@@ -61,7 +65,7 @@ export default class GoodsLists extends Component {
         underlayColor="rgba(34,36,38,1)"
         >
         <View style={indexStyle.good}>
-          <Image source={{uri:good.skuInfo.skuThumbnail}} style={indexStyle.img} ></Image>
+          <Image source={{uri:good.skuInfo.skuPic}} style={indexStyle.img} ></Image>
           <View style={indexStyle.contents}>
             <Text style={indexStyle.goodsName}>{good.name}</Text>
             <View style={indexStyle.priceLists}>
@@ -93,6 +97,7 @@ export default class GoodsLists extends Component {
     return (
       <ListView
         style={indexStyle.list}
+        onEndReached={this.onEndReached}
         dataSource={ this.state.goods }
         renderRow={ this.showGoods.bind(this) }
       />

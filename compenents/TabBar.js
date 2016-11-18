@@ -10,6 +10,9 @@ import {
 
 export default class TabBar extends Component {
   render() {
+    if (!this.props.isTabBar) {
+      return (<View></View>)
+    }
     let tabBarData = [
       {title:'首页', icon:'ic_main_home', iconSelected:'ic_main_home_selected'},
       {title:'分类', icon:'ic_main_category', iconSelected:'ic_main_category_selected'},
@@ -47,6 +50,7 @@ const tabBarStyle = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: '#ddd',
     flexDirection: 'row',
+    backgroundColor:'#f8f8f8'
   },
   tabBar:{
     flex: 1,

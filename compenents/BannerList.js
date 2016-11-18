@@ -37,7 +37,6 @@ class BannerList extends React.Component{
       .done();
   }
   render() {
-    console.log(this.state.newBeancurdCubeList[0].icon);
     let subButtonList = this.state.subButtons.map((item,index) => {
       return (
         <View key={index} style={styles.subButton}>

@@ -26,7 +26,7 @@ export default class Index extends Component {
   };
   gotoSearch(){
     // alert(tit.name)Search
-    this.props.navigator.push({name: 'Search', component: Search})
+    this.props.navigator.push({name: 'Search', component: Search,isTabBar:false})
   };
   render() {
     return (

@@ -19,7 +19,7 @@ export default class Search extends Component {
     }
   }
   gotoSearchRes(data){
-    this.props.navigator.push({name: 'SearchRes', component: SearchRes, passProps:{data:data}})
+    this.props.navigator.push({name: 'SearchRes', component: SearchRes, passProps:{data:data},isTabBar:false})
   };
   render() {
     return (

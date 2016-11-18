@@ -19,7 +19,8 @@ export default class Container extends Component {
     super(props);
 
     this.state = {
-      tabIndex: 0
+      tabIndex: 0,
+      isTabBar:true,
     }
   }
   configureScene(route, routeStack) {
@@ -41,7 +42,6 @@ export default class Container extends Component {
     return (
       <View style = {containerStyle.container}>
 
-
         <Navigator
           initialRoute={routes[0]}
           // initialRouteStack={routes}
@@ -53,9 +53,13 @@ export default class Container extends Component {
                   tabIndex: routes.indexOf(nextRoute)
                 })
              }
+             this.state.isTabBar = true;
+             if(nextRoute.isTabBar === false){
+               this.state.isTabBar = nextRoute.isTabBar;
+             }
           }}
           navigationBar={
-            <TabBar navigator={navigator} routes={routes} tabIndex={this.state.tabIndex}/>
+            <TabBar navigator={navigator} routes={routes} tabIndex={this.state.tabIndex} isTabBar={this.state.isTabBar}/>
           }
         />
       </View>

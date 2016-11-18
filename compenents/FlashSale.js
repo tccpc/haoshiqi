@@ -22,104 +22,93 @@ class FlashSale extends React.Component {
     var expiredTime = new Date().getTime().toString().split("");
     expiredTime.splice(-3,3);
     this.state = {
-      prolist: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2
-      }),
+      prolist: [],
       expiredTime:expiredTime
     };
+  }
+
+  componentDidMount() {
     var that = this;
-    setInterval(function(){
+    this.timer = setInterval(function(){
       that.state.expiredTime = new Date().getTime().toString().split("");
       that.state.expiredTime.splice(-3,3);
       that.setState({
         expiredTime: that.state.expiredTime
-      })
+      });
     },1000);
-
   }
 
-
-
-
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
   fetchData(url) {
     fetch(url)
       .then(response => response.json())
       .then(responseData => {
         this.setState({
-          prolist: this.state.prolist.cloneWithRows(responseData.data.marketingActivities),
+          prolist: responseData.data.marketingActivities
         });
       })
       .done();
   }
 
-  renderprolist(pro) {
-    if(pro.price) {
-      let arrprice = pro.price.toString().split("");
-      arrprice.splice(2,0,".");
-      arrprice.unshift("￥");
-      var price = arrprice.join("");
-    } else {
-      var price = "";
-    }
-
-
-      var deadline =pro.expiredTime - this.state.expiredTime.join("");
-      var d = parseInt(deadline/3600/24);
-      var h = parseInt(deadline/3600%24);
-      var m = parseInt(deadline/60)-24*d*60-h*60;
-      var s = deadline-d*24*3600-h*3600-m*60;
-
-      if(s.toString().length<2){
-        s = '0' + s;
-      }
-      if(d.toString().length<2){
-        d = '0' + d;
-      }
-      if(h.toString().length<2){
-        h = '0' + h;
-      }
-      if(m.toString().length<2){
-        m = '0' + m;
-      }
-
-
-    return (
-      <View style={styles.flashsalebox}>
-        <View style={styles.bgbox}>
-          <Image
-            source={{uri:pro.icon}}
-            style={styles.bgImage}
-          >
-          <View style={styles.timetxt}>
-            <Text style={styles.deadline}>{pro.timeText}</Text>
-              <Text style={styles.deadline,styles.timenumbg}>{d}</Text><Text style={styles.deadline}>天</Text>
-              <Text style={styles.deadline,styles.timenumbg}>{h}</Text><Text style={styles.deadline}>小时</Text>
-              <Text style={styles.deadline,styles.timenumbg}>{m}</Text><Text style={styles.deadline}>分</Text>
-              <Text style={styles.deadline,styles.timenumbg}>{s}</Text><Text style={styles.deadline}>秒</Text>
-
-          </View>
-
-
-
-          </Image>
-        </View>
-        <View style={styles.bottomtxt}>
-          <Text style={styles.label}>{pro.label}</Text>
-          <Text style={styles.price}>{price}</Text>
-        </View>
-      </View>
-
-    )
-  }
-
   render() {
 
+    let pros = this.state.prolist.map((pro,index) => {
+      if(pro.price) {
+        let arrprice = pro.price.toString().split("");
+        arrprice.splice(2,0,".");
+        arrprice.unshift("￥");
+        var price = arrprice.join("");
+      } else {
+        var price = "";
+      }
+        var deadline =pro.expiredTime - this.state.expiredTime.join("");
+        var d = parseInt(deadline/3600/24);
+        var h = parseInt(deadline/3600%24);
+        var m = parseInt(deadline/60)-24*d*60-h*60;
+        var s = deadline-d*24*3600-h*3600-m*60;
+
+        if(s.toString().length<2){
+          s = '0' + s;
+        }
+        if(d.toString().length<2){
+          d = '0' + d;
+        }
+        if(h.toString().length<2){
+          h = '0' + h;
+        }
+        if(m.toString().length<2){
+          m = '0' + m;
+        }
+
+      return (
+        <View key={index} style={styles.flashsalebox}>
+          <View style={styles.bgbox}>
+            <Image
+              source={{uri:pro.icon}}
+              style={styles.bgImage}
+            >
+            <View style={styles.timetxt}>
+              <Text style={styles.deadline}>{pro.timeText}</Text>
+                <Text style={styles.deadline,styles.timenumbg}>{d}</Text><Text style={styles.deadline}>天</Text>
+                <Text style={styles.deadline,styles.timenumbg}>{h}</Text><Text style={styles.deadline}>小时</Text>
+                <Text style={styles.deadline,styles.timenumbg}>{m}</Text><Text style={styles.deadline}>分</Text>
+                <Text style={styles.deadline,styles.timenumbg}>{s}</Text><Text style={styles.deadline}>秒</Text>
+
+            </View>
+            </Image>
+          </View>
+          <View style={styles.bottomtxt}>
+            <Text style={styles.label}>{pro.label}</Text>
+            <Text style={styles.price}>{price}</Text>
+          </View>
+        </View>
+
+      )
+    })
     return (
-        <ListView
-          dataSource={this.state.prolist}
-          renderRow={this.renderprolist.bind(this)}
-          style={{backgroundColor: '#f1f1f1'}}
-        />
+      <View>{pros}</View>
     );
   }
 

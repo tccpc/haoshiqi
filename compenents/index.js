@@ -2,6 +2,8 @@
 import React, {Component} from 'react';
 import GoodsDetail from './goodsDetail.js';
 import GoodsLists from './goodsLists.js';
+import FlashSale from './FlashSale';
+import BannerList from './BannerList';
 import Search from './search.js';
 
 import {
@@ -11,6 +13,7 @@ import {
   Image,
   ListView,
   ActivityIndicator,
+  ScrollView,
   TouchableHighlight
 } from 'react-native';
 
@@ -45,7 +48,11 @@ export default class Index extends Component {
               <Image source={{uri:'ic_arrow_location'}} style={{width:21,height:38}}></Image>
             </View>
           </View>
-          <GoodsLists listUrl={GOOD_URL} navigator={this.props.navigator} />
+          <ScrollView>
+            <BannerList />
+            <FlashSale />
+            <GoodsLists listUrl={GOOD_URL} navigator={this.props.navigator} />
+          </ScrollView>
         </View>
     )
   }

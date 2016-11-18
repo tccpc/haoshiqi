@@ -29,7 +29,7 @@ export default class Search extends Component {
           placeholder="搜索"
           placeholderTextColor="#999"
           autoFocus={true}
-          defaultValue="曲奇"
+          // defaultValue="曲奇"
           // editable={false}  禁用
           keyboardType="default"
           // multiline={true}  多行输入

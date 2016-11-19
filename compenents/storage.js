@@ -1,0 +1,10 @@
+{
+  data.skuInfo.skuId
+  data.skuInfo.skuPic
+  data.skuInfo.name
+  data.skuInfo.selled_cnt
+  data.skuInfo.market_price
+  data.skuInfo.lowest_price
+  data.skuInfo.attrs.name
+  data.skuInfo.attrs.value
+}

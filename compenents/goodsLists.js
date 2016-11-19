@@ -35,13 +35,8 @@ export default class GoodsLists extends Component {
       })
   };
 
-  gotoDetail(goods){
-    // alert(tit.name)
-    this.props.navigator.push({name: 'GoodsDetail', component: GoodsDetail, passProps:goods,isTabBar:false})
-  };
-
-  onEndReached(){
-
+  gotoDetail(tit){
+    this.props.navigator.push({name: 'GoodsDetail', component: GoodsDetail})
   };
 
   showGoods(good){
@@ -63,9 +58,9 @@ export default class GoodsLists extends Component {
         style={indexStyle.highlight}
         onPress={() => this.gotoDetail(good)}
         underlayColor="rgba(34,36,38,1)"
-        >
+      >
         <View style={indexStyle.good}>
-          <Image source={{uri:good.skuInfo.skuPic}} style={indexStyle.img} ></Image>
+          <Image source={{uri:good.skuInfo.skuThumbnail}} style={indexStyle.img} ></Image>
           <View style={indexStyle.contents}>
             <Text style={indexStyle.goodsName}>{good.name}</Text>
             <View style={indexStyle.priceLists}>
@@ -97,7 +92,6 @@ export default class GoodsLists extends Component {
     return (
       <ListView
         style={indexStyle.list}
-        onEndReached={this.onEndReached}
         dataSource={ this.state.goods }
         renderRow={ this.showGoods.bind(this) }
       />

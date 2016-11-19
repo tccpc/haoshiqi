@@ -1,5 +1,6 @@
 'use strict';
 
+import GoodsDetail from './goodsDetail.js';
 import React from 'react';
 
 import {
@@ -7,7 +8,7 @@ import {
   Text,
   Image,
   StyleSheet,
-  ListView
+  TouchableHighlight
 } from 'react-native';
 
 
@@ -51,6 +52,9 @@ class FlashSale extends React.Component {
       })
       .done();
   }
+  toDetail(goods) {
+    this.props.navigator.push({name: 'GoodsDetail', component: GoodsDetail, passProps:{goods},isTabBar:false})
+  }
 
   render() {
 
@@ -83,27 +87,31 @@ class FlashSale extends React.Component {
         }
 
       return (
-        <View key={index} style={styles.flashsalebox}>
-          <View style={styles.bgbox}>
-            <Image
-              source={{uri:pro.icon}}
-              style={styles.bgImage}
-            >
-            <View style={styles.timetxt}>
-              <Text style={styles.deadline}>{pro.timeText}</Text>
-                <Text style={styles.deadline,styles.timenumbg}>{d}</Text><Text style={styles.deadline}>天</Text>
-                <Text style={styles.deadline,styles.timenumbg}>{h}</Text><Text style={styles.deadline}>小时</Text>
-                <Text style={styles.deadline,styles.timenumbg}>{m}</Text><Text style={styles.deadline}>分</Text>
-                <Text style={styles.deadline,styles.timenumbg}>{s}</Text><Text style={styles.deadline}>秒</Text>
+        <TouchableHighlight key={index}
+          onPress={this.toDetail(pro)}
+        >
+          <View style={styles.flashsalebox}>
+            <View style={styles.bgbox}>
+              <Image
+                source={{uri:pro.icon}}
+                style={styles.bgImage}
+              >
+              <View style={styles.timetxt}>
+                <Text style={styles.deadline}>{pro.timeText}</Text>
+                  <Text style={styles.deadline,styles.timenumbg}>{d}</Text><Text style={styles.deadline}>天</Text>
+                  <Text style={styles.deadline,styles.timenumbg}>{h}</Text><Text style={styles.deadline}>小时</Text>
+                  <Text style={styles.deadline,styles.timenumbg}>{m}</Text><Text style={styles.deadline}>分</Text>
+                  <Text style={styles.deadline,styles.timenumbg}>{s}</Text><Text style={styles.deadline}>秒</Text>
 
+              </View>
+              </Image>
             </View>
-            </Image>
+            <View style={styles.bottomtxt}>
+              <Text style={styles.label}>{pro.label}</Text>
+              <Text style={styles.price}>{price}</Text>
+            </View>
           </View>
-          <View style={styles.bottomtxt}>
-            <Text style={styles.label}>{pro.label}</Text>
-            <Text style={styles.price}>{price}</Text>
-          </View>
-        </View>
+        </TouchableHighlight>
 
       )
     })

@@ -49,7 +49,7 @@ export default class Index extends Component {
             </View>
           </View>
           <ScrollView>
-            <BannerList />
+            <BannerList navigator={this.props.navigator}/>
             <FlashSale />
             <GoodsLists listUrl={GOOD_URL} navigator={this.props.navigator} />
           </ScrollView>

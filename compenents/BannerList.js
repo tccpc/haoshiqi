@@ -6,8 +6,11 @@ import {
   View,
   Image,
   StyleSheet,
-  Text
+  Text,
+  TouchableHighlight,
 } from 'react-native';
+
+import BaniconDetail from './BaniconDetail';
 
 class BannerList extends React.Component{
   constructor(props) {
@@ -36,18 +39,27 @@ class BannerList extends React.Component{
       })
       .done();
   }
+  toBaniconDetail(item) {
+    this.props.navigator.push({name: 'BaniconDetail', component: BaniconDetail,passProps:{item:item}, isTabBar:false})
+  }
   render() {
     let subButtonList = this.state.subButtons.map((item,index) => {
       return (
-        <View key={index} style={styles.subButton}>
-          <Image
-            source={{uri:item.icon}}
-            style={styles.subButtonimg}
-          />
-          <Text>
-          {item.label}
-          </Text>
-        </View>
+        <TouchableHighlight
+          onPress={() =>this.toBaniconDetail(item)}
+          underlayColor="rgba(255,255,255,0)"
+          key={index} style={styles.subButton}
+        >
+          <View style={styles.subcenter}>
+            <Image
+              source={{uri:item.icon}}
+              style={styles.subButtonimg}
+            />
+            <Text>
+            {item.label}
+            </Text>
+          </View>
+        </TouchableHighlight>
       )
     })
     return(
@@ -94,10 +106,14 @@ const styles = StyleSheet.create({
   },
   subButton: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginTop:10,
     marginBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subcenter: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   subButtonimg: {
     height: 40,

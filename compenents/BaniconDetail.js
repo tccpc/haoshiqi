@@ -17,6 +17,7 @@ class BaniconDetail extends React.Component{
   }
 
   render() {
+    console.log(this.props.item.label);
     const GOOD_URL = `http://m.api.haoshiqi.net/product/itemssearch?category=${this.props.item.label}`;
     return (
       <View>

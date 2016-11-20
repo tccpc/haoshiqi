@@ -63,7 +63,7 @@ export default class GoodsLists extends Component {
 
   gotoDetail(goods){
     // alert(tit.name)
-    this.props.navigator.push({name: 'GoodsDetail', component: GoodsDetail, passProps:goods,isTabBar:false})
+    this.props.navigator.push({name: 'GoodsDetail', component: GoodsDetail, passProps:{goods},isTabBar:false})
   };
   addCart(goods){
     storage.load({

@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 import React, {Component} from 'react';
 import Storage from 'react-native-storage';
 import {
@@ -7,93 +7,110 @@ import {
   StyleSheet,
   Image,
   ListView,
+  AsyncStorage,
   ActivityIndicator,
   TouchableHighlight,
-  AsyncStorage,
   Del,
 } from 'react-native';
 
 import EmptyCart from './emptyCart.js';
 var storage = new Storage({
-  // 最大容量，默认值1000条数据循环存储
   size: 1000,
-
-  // 存储引擎：对于RN使用AsyncStorage，对于web使用window.localStorage
-  // 如果不指定则数据只会保存在内存中，重启后即丢失
   storageBackend: AsyncStorage,
-
-  // 数据过期时间，默认一整天（1000 * 3600 * 24 毫秒），设为null则永不过期
   defaultExpires: 1000 * 3600 * 24 * 7,
-
-  // 读写时在内存中缓存数据。默认启用。
   enableCache: true,
-
-  // 如果storage中没有相应数据，或数据已过期，
-  // 则会调用相应的sync方法，无缝返回最新数据。
-  // sync方法的具体说明会在后文提到
-  // 你可以在构造函数这里就写好sync的方法
-  // 或是写到另一个文件里，这里require引入
-  // 或是在任何时候，直接对storage.sync进行赋值修改
 })
 
 export default class Shopcart extends Component {
   constructor(prop){
     super(prop);
+    const REQUEST_URL = "http://m.api.haoshiqi.net/product/iteminfo?device=pc&channel=h5&v=1.8.3&swidth=1920&sheight=1080&zoneId=857&terminal=wap&page=http%3A%2F%2Fm.haoshiqi.net%2F%23detail%3Fsid%3D8868%26channel_id%3Dh5&skuId=8868";
     let dataSource = new ListView.DataSource({
       rowHasChanged: (row1,row2) => row1 !== row2
     });
+    let cart=[{}];
+    let id=[];
     this.state = {
       hasShop:false,
-      dataSource: dataSource.cloneWithRows([
-        'John', 'Joel', 'James', 'Jimmy', 'Jackson', 'Jillian', 'Julie', 'Devin', 'Jillian'
-      ])
+      dataSource:dataSource.cloneWithRows(cart)
     }
+  };
+
+   fetchShopData () {
+    storage.load({
+      key: 'user',
+      // autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
+      autoSync: true,
+      // syncInBackground(默认为true)意味着如果数据过期，
+      // 在调用sync方法的同时先返回已经过期的数据。
+      // 设置为false的话，则始终强制返回sync方法提供的最新数据(当然会需要更多等待时间)。
+      syncInBackground: false
+    }).then(ret => {
+      console.log(1);
+      console.log(ret.cart);
+        for(var j=0;j<ret.cart.length;j++){
+            id[j]=ret.cart[j].skuId;
+        }
+    }).catch(err => {
+      // if(ret.cart.length>=0){
+      //  this.state.hasShop=true;
+      //  }
+    });
+      // for(var i=0;i<id.length;i++){
+      //   fetch(REQUEST_URL)
+      //     .then(res => res.json())
+      //     .then(res => {
+      //       cart.push(res.data.list[1]);
+      //   })
+      // }
   };
   gotoDetail(tit){
     this.props.navigator.push({name: 'GoodsDetail', component: GoodsDetail})
   };
   showShopCart(shopGood){
     return (
-      <TouchableHighlight
-        onPress={() => this.gotoDetail(good)}
-        underlayColor="rgba(34,36,38,1)"
-        >
-        <View>
-          <View style={CarStyles.shopName}>
-            <Image source={{uri:'btg_icon_priority_3_selected'}} style={CarStyles.selectItem}/>
-            <Text style={CarStyles.shoptit}>林荫茶叶旗舰店</Text>
-            <Image source={{uri:'btg_icon_arrow_right_selected'}} style={CarStyles.arrowRight}/>
-          </View>
-          <View style={CarStyles.item}>
-            <Image source={{uri:'btg_icon_priority_3_selected'}} style={CarStyles.rightSelectItem}/>
-            <View style={CarStyles.itemright}>
-              <View style={CarStyles.itemtop}>
-                <Image source={{uri:'icon_red_coupon'}} style={CarStyles.goodimg}/>
-                <View style={CarStyles.goodtext}>
-                  <Text>[包邮]台湾竹叶堂日式麻糬抹茶大福+芝麻大福+米兰诺松塔 组合礼包 共1023g</Text>
-                  <Text style={CarStyles.discribe}>原味乳酪味菠菜味蓝莓味|200g*2盒</Text>
-                </View>
-              </View>
-              <View style={CarStyles.itembottom}>
-                <View style={CarStyles.price}>
-                  <Text style={CarStyles.salePrice}>￥29.90</Text>
-                  <Text style={CarStyles.oldPrice}>76.00</Text>
-                </View>
-                <View style={CarStyles.num}>
-                  <Text style={CarStyles.add}>-</Text>
-                  <View style={CarStyles.shopNumber}><Text style={CarStyles.numtext}>1</Text></View>
-                  <Text style={CarStyles.unadd}>+</Text>
-                </View>
-              </View>
-              <View style={CarStyles.remain}><Text style={CarStyles.remaintext}>仅剩998件</Text></View>
-            </View>
-          </View>
-        </View>
-      </TouchableHighlight>
+      <View>
+      </View>
+      // <TouchableHighlight
+      //   onPress={() => this.gotoDetail(good)}
+      //   underlayColor="rgba(34,36,38,1)"
+      //   >
+      //   <View>
+      //     <View style={CarStyles.shopName}>
+      //       <Image source={{uri:'btg_icon_priority_3_selected'}} style={CarStyles.selectItem}/>
+      //       <Text style={CarStyles.shoptit}>林荫茶叶旗舰店</Text>
+      //       <Image source={{uri:'btg_icon_arrow_right_selected'}} style={CarStyles.arrowRight}/>
+      //     </View>
+      //     <View style={CarStyles.item}>
+      //       <Image source={{uri:'btg_icon_priority_3_selected'}} style={CarStyles.rightSelectItem}/>
+      //       <View style={CarStyles.itemright}>
+      //         <View style={CarStyles.itemtop}>
+      //           <Image source={{uri:'shopGood.skuInfo.skuPic'}} style={CarStyles.goodimg}/>
+      //           <View style={CarStyles.goodtext}>
+      //             <Text>{shopGood.name}</Text>
+      //             <Text style={CarStyles.discribe}>{shopGood.skuInfo.attr[0].name}{shopGood.skuInfo.attr[0].value}</Text>
+      //           </View>
+      //         </View>
+      //         <View style={CarStyles.itembottom}>
+      //           <View style={CarStyles.price}>
+      //             <Text style={CarStyles.salePrice}>￥{(shopGood.highest_price/100).toFixed(2)}</Text>
+      //             <Text style={CarStyles.oldPrice}>{(shopGood.market_price/100).toFixed(2)}</Text>
+      //           </View>
+      //           <View style={CarStyles.num}>
+      //             <Text style={CarStyles.add}>-</Text>
+      //             <View style={CarStyles.shopNumber}><Text style={CarStyles.numtext}>1</Text></View>
+      //             <Text style={CarStyles.unadd}>+</Text>
+      //           </View>
+      //         </View>
+      //         <View style={CarStyles.remain}><Text style={CarStyles.remaintext}>仅剩998件</Text></View>
+      //       </View>
+      //     </View>
+      //   </View>
+      // </TouchableHighlight>
     )
   }
-
   render() {
+    this.fetchShopData();
     if(this.state.hasShop){
     return (
       <TouchableHighlight
@@ -105,6 +122,8 @@ export default class Shopcart extends Component {
       </TouchableHighlight>
     )}
     return(
+      // <View>
+      // </View>
     <ListView
       renderRow={this.showShopCart.bind(this)}
       dataSource={this.state.dataSource}

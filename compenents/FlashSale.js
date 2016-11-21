@@ -73,7 +73,6 @@ class FlashSale extends React.Component {
               <View key={index} style={styles.flashsalebox}>
                 <TouchableHighlight
                   underlayColor= "rgba(255,255,255,0)"
-                
                 >
                   <View style={styles.bgbox}>
                     <Image
